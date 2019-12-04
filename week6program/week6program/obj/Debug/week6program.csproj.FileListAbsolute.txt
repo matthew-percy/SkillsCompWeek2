@@ -1,0 +1,14 @@
+C:\Users\mpercy\source\repos\week6program\week6program\bin\Debug\week6program.exe.config
+C:\Users\mpercy\source\repos\week6program\week6program\bin\Debug\week6program.exe
+C:\Users\mpercy\source\repos\week6program\week6program\bin\Debug\week6program.pdb
+C:\Users\mpercy\source\repos\week6program\week6program\obj\Debug\week6program.csprojAssemblyReference.cache
+C:\Users\mpercy\source\repos\week6program\week6program\obj\Debug\week6program.csproj.CoreCompileInputs.cache
+C:\Users\mpercy\source\repos\week6program\week6program\obj\Debug\week6program.exe
+C:\Users\mpercy\source\repos\week6program\week6program\obj\Debug\week6program.pdb
+G:\_PROGRAMMING\week2\week6program\week6program\bin\Debug\week6program.exe.config
+G:\_PROGRAMMING\week2\week6program\week6program\bin\Debug\week6program.exe
+G:\_PROGRAMMING\week2\week6program\week6program\bin\Debug\week6program.pdb
+G:\_PROGRAMMING\week2\week6program\week6program\obj\Debug\week6program.csprojResolveAssemblyReference.cache
+G:\_PROGRAMMING\week2\week6program\week6program\obj\Debug\week6program.csproj.CoreCompileInputs.cache
+G:\_PROGRAMMING\week2\week6program\week6program\obj\Debug\week6program.exe
+G:\_PROGRAMMING\week2\week6program\week6program\obj\Debug\week6program.pdb
