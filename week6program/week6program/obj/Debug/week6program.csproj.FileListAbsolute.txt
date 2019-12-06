@@ -12,3 +12,10 @@ G:\_PROGRAMMING\week2\week6program\week6program\obj\Debug\week6program.csprojRes
 G:\_PROGRAMMING\week2\week6program\week6program\obj\Debug\week6program.csproj.CoreCompileInputs.cache
 G:\_PROGRAMMING\week2\week6program\week6program\obj\Debug\week6program.exe
 G:\_PROGRAMMING\week2\week6program\week6program\obj\Debug\week6program.pdb
+F:\_SKILLSCOMP\week6program\week6program\bin\Debug\week6program.exe.config
+F:\_SKILLSCOMP\week6program\week6program\bin\Debug\week6program.exe
+F:\_SKILLSCOMP\week6program\week6program\bin\Debug\week6program.pdb
+F:\_SKILLSCOMP\week6program\week6program\obj\Debug\week6program.csprojResolveAssemblyReference.cache
+F:\_SKILLSCOMP\week6program\week6program\obj\Debug\week6program.csproj.CoreCompileInputs.cache
+F:\_SKILLSCOMP\week6program\week6program\obj\Debug\week6program.exe
+F:\_SKILLSCOMP\week6program\week6program\obj\Debug\week6program.pdb
