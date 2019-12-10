@@ -253,6 +253,41 @@ namespace week6program
                 component.DisplayValues();
             }
         }
+
+        public static string ConvertToEngineeringNotation(double value)
+        {
+            double amountOfZeros = Math.Log10(value);
+
+            if (amountOfZeros < 0 && amountOfZeros >= -3)
+            {
+                return (value * 1000) + "m";
+            }
+            else if (amountOfZeros < -3 && amountOfZeros >= -6)
+            {
+                return (value * 1000000) + "u";
+            }
+            else if (amountOfZeros < -6 && amountOfZeros >= -9)
+            {
+                return (value * 1000000000) + "u";
+            }
+            else if (amountOfZeros >= 3 && amountOfZeros < 6)
+            {
+                return (value / 1000) + "K";
+            }
+            else if (amountOfZeros >= 6 && amountOfZeros < 9)
+            {
+                return (value / 1000000) + "M";
+            }
+            else if (amountOfZeros >= 9 && amountOfZeros < 12)
+            {
+                return (value / 1000000000) + "G";
+            }
+            else
+            {
+                return "" + value;
+            }
+        }
+
     }
 
     public class Resistor : IComponent
@@ -567,10 +602,10 @@ namespace week6program
             ConsoleColor defaultColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("RESISTOR");
-            Console.WriteLine("Voltage = " + voltage);
-            Console.WriteLine("Current = " + current);
-            Console.WriteLine("Resistance = " + resistance);
-            Console.WriteLine("Power = " + power);
+            Console.WriteLine("Voltage = " + Program.ConvertToEngineeringNotation(voltage));
+            Console.WriteLine("Current = " + Program.ConvertToEngineeringNotation(current));
+            Console.WriteLine("Resistance = " + Program.ConvertToEngineeringNotation(resistance));
+            Console.WriteLine("Power = " + Program.ConvertToEngineeringNotation(power));
             Console.ForegroundColor = defaultColor;
         }
     }
@@ -647,9 +682,9 @@ namespace week6program
             Console.ForegroundColor = ConsoleColor.Red;
 
             Console.WriteLine("LED");
-            Console.WriteLine("Voltage = " + voltage);
-            Console.WriteLine("Current = " + current);
-            Console.WriteLine("Voltage Drop = " + voltageDrop);
+            Console.WriteLine("Voltage = " + Program.ConvertToEngineeringNotation(voltage));
+            Console.WriteLine("Current = " + Program.ConvertToEngineeringNotation(current));
+            Console.WriteLine("Voltage Drop = " + Program.ConvertToEngineeringNotation(voltageDrop));
             Console.ForegroundColor = defaultColor;
         }
         public void SetPower(double value){throw new NotImplementedException();} //unused functions from interface
@@ -681,4 +716,8 @@ namespace week6program
 
         void DisplayValues();
     }
+
+    
+
+
 }
