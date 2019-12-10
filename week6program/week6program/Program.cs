@@ -20,15 +20,15 @@ namespace week6program
 
                 string userInput = Console.ReadLine();
 
-                if (userInput == "1")
+                if (userInput == "1") //Ohms Law
                 {
                     Resistor OhmsLaw = new Resistor();
-                    while (OhmsLaw.ValuesSet() == false)
+                    while (OhmsLaw.ValuesSet() == false) //keep going forever until 2 values have been sent to the resistor
                     {
-                        if (Double.IsNaN(OhmsLaw.Voltage))
+                        if (Double.IsNaN(OhmsLaw.Voltage)) //ask for voltage if the voltage doesnt already exist
                         {
                             Console.Write("Enter Voltage --> ");
-                            try { OhmsLaw.SetVoltage(Double.Parse(Console.ReadLine())); }// = Double.Parse(Console.ReadLine()); }
+                            try { OhmsLaw.SetVoltage(Double.Parse(Console.ReadLine())); }
                             catch (Exception e) { }
                         }
                         if (Double.IsNaN(OhmsLaw.Current))
@@ -52,47 +52,47 @@ namespace week6program
                     }
                     PrintComponent(OhmsLaw);
                 }
-                else if (userInput == "2")
+                else if (userInput == "2")//Voltage Divider Rule
                 {
                     Resistor resistor1 = new Resistor();
                     Resistor resistor2 = new Resistor();
 
                     double sourceVoltage = Double.NaN; 
-                    while (resistor1.ValuesSet() == false || resistor2.ValuesSet() == false)
+                    while (resistor1.ValuesSet() == false || resistor2.ValuesSet() == false) //keep going forever until 3 values have been sent
                     {
-                        if (Double.IsNaN(sourceVoltage))
+                        if (Double.IsNaN(sourceVoltage)) 
                         {
                             try
                             {
                                 double input;
 
-                                if (!Double.IsNaN(resistor1.Voltage) && !Double.IsNaN(resistor2.Voltage))
+                                if (!Double.IsNaN(resistor1.Voltage) && !Double.IsNaN(resistor2.Voltage)) //if we have the voltage of both resistors, calculate the source voltage
                                 {
-                                    sourceVoltage = resistor1.Voltage + resistor2.Voltage;
+                                    sourceVoltage = resistor1.Voltage + resistor2.Voltage; //E = Vr1 + Vr2
                                 }
                                 else
                                 {
                                     Console.Write("Enter Source Voltage --> ");
                                     input = Double.Parse(Console.ReadLine());
                                     
-                                    if (!Double.IsNaN(resistor1.Voltage) && Double.IsNaN(resistor2.Voltage))
+                                    if (!Double.IsNaN(resistor1.Voltage) && Double.IsNaN(resistor2.Voltage)) //if we have voltage of R1, but not R2
                                     {
-                                        if (input <= resistor1.Voltage)
+                                        if (input <= resistor1.Voltage) //make sure source voltage is greater than resistors voltage
                                         {
                                             Console.WriteLine("Voltage of source cannot be less than resistor voltage");
                                             throw new InvalidOperationException("Voltage of source cannot be less than resistor voltage");
                                         }
-                                        resistor2.SetVoltage(input - resistor1.Voltage, resistor1, sourceVoltage);
+                                        resistor2.SetVoltage(input - resistor1.Voltage, resistor1, sourceVoltage);//Vr2 = E - Vr1
 
                                     }
-                                    else if (Double.IsNaN(resistor1.Voltage) && !Double.IsNaN(resistor2.Voltage))
+                                    else if (Double.IsNaN(resistor1.Voltage) && !Double.IsNaN(resistor2.Voltage))//if we have voltage of R2, but not R1
                                     {
-                                        if (input <= resistor2.Voltage)
+                                        if (input <= resistor2.Voltage)//make sure source voltage is greater than resistors voltage
                                         {
                                             Console.WriteLine("Voltage of source cannot be less than resistor voltage");
                                             throw new InvalidOperationException("Voltage of source cannot be less than resistor voltage");
                                         }
-                                        resistor1.SetVoltage(input - resistor2.Voltage, resistor2, sourceVoltage);
+                                        resistor1.SetVoltage(input - resistor2.Voltage, resistor2, sourceVoltage);//Vr1 = E - Vr2
                                     }
                                     else
                                     {
@@ -111,12 +111,12 @@ namespace week6program
 
                                 if (!Double.IsNaN(sourceVoltage))
                                 {
-                                    if (input >= sourceVoltage)
+                                    if (input >= sourceVoltage) //make sure resistors voltage is less than source voltage
                                     {
                                         Console.WriteLine("Voltage of resistor cannot be greater than Source Voltage");
                                         throw new InvalidOperationException("Voltage of resistor cannot be greater than Source Voltage");
                                     }
-                                    resistor2.SetVoltage(sourceVoltage - input,resistor1, sourceVoltage);
+                                    resistor2.SetVoltage(sourceVoltage - input,resistor1, sourceVoltage);//Vr2 = E - Vr1
                                 }
                                 resistor1.SetVoltage(input, resistor2, sourceVoltage);
                             }
@@ -128,9 +128,8 @@ namespace week6program
                             try {
                                 double input = Double.Parse(Console.ReadLine());
 
-                                resistor1.SetCurrent(input, resistor2, sourceVoltage);
+                                resistor1.SetCurrent(input, resistor2, sourceVoltage);//current is same in series, therefore we set both together
                                 resistor2.SetCurrent(input, resistor1, sourceVoltage);
-
                             }
                             catch (Exception e) {  }
                         }
@@ -143,10 +142,11 @@ namespace week6program
 
                                 resistor1.SetValue(input, resistor2, sourceVoltage);
 
-                                //if we need the voltage of r1, and currently have the source V aswell as R2, we can get it
+                                //if we need the voltage of r1, and currently have the source V aswell as R2, we can use voltage divider rule
                                 if (Double.IsNaN(resistor1.Voltage) && !Double.IsNaN(sourceVoltage) && !Double.IsNaN(resistor2.Value))
                                 {
                                     resistor1.SetVoltage(sourceVoltage * (resistor1.Value/(resistor1.Value+resistor2.Value)), resistor2, sourceVoltage);
+                                    //Vr1 = E * (r1/r1+r2)
                                 }
 
                             }
@@ -155,12 +155,9 @@ namespace week6program
                         if (Double.IsNaN(resistor1.Power))
                         {
                             Console.Write("Enter Power (R1) --> ");
-                            //try { resistor1.Power = Double.Parse(Console.ReadLine()); }
                             try { resistor1.SetPower(Double.Parse(Console.ReadLine()), resistor2, sourceVoltage); }
                             catch (Exception e) { }
                         }
-
-
                         if (Double.IsNaN(resistor2.Voltage))
                         {
                             Console.Write("Enter Voltage (R2) --> ");
@@ -170,7 +167,7 @@ namespace week6program
 
                                 if (!Double.IsNaN(sourceVoltage))
                                 {
-                                    if (input >= sourceVoltage)
+                                    if (input >= sourceVoltage)//make sure resistors voltage is less than source voltage
                                     {
                                         throw new InvalidOperationException("Voltage of resistor cannot be greater than Source Voltage");
                                     }
@@ -189,19 +186,18 @@ namespace week6program
 
                                 resistor2.SetValue(input, resistor1, sourceVoltage);
 
-                                //if we need the voltage of r1, and currently have the source V aswell as R2, we can get it
+                                //if we need the voltage of r2, and currently have the source V aswell as R1, we can use voltage divider rule
                                 if (Double.IsNaN(resistor2.Voltage) && !Double.IsNaN(sourceVoltage) && !Double.IsNaN(resistor1.Value))
                                 {
                                     resistor2.SetVoltage(sourceVoltage * (resistor2.Value / (resistor2.Value + resistor1.Value)), resistor1, sourceVoltage);
+                                    //Vr2 = E * (r2/r1+r2)
                                 }
-
                             }
                             catch (Exception e) { }
                         }
                         if (Double.IsNaN(resistor2.Power))
                         {
                             Console.Write("Enter Power (R2) --> ");
-                            //try { resistor2.Power = Double.Parse(Console.ReadLine()); }
                             try { resistor2.SetPower(Double.Parse(Console.ReadLine()), resistor1, sourceVoltage); }
                             catch (Exception e) { }
                         }
@@ -209,66 +205,34 @@ namespace week6program
                     PrintComponent(resistor1);
                     PrintComponent(resistor2);
                 }
-                else if (userInput == "3")
+                else if (userInput == "3") //LED limiting resistor
                 {
                     Resistor resistor = new Resistor();
                     LED led = new LED();
 
-                    while (led.ValuesSet() == false || resistor.ValuesSet() == false)
+                    while (led.ValuesSet() == false || resistor.ValuesSet() == false)//keep going forever until all LED values are sent
                     {
                         if (Double.IsNaN(led.Voltage))
                         {
                             Console.Write("Enter Source Voltage --> ");
-                            //try { resistor.SetVoltage(Double.Parse(Console.ReadLine())); }// = Double.Parse(Console.ReadLine()); }
                             try { led.SetVoltage(Double.Parse(Console.ReadLine()), resistor); }
                             catch (Exception e) { }
                         }
                         if (Double.IsNaN(led.Value))
                         {
                             Console.Write("Enter Voltage Drop --> ");
-                            //try { resistor.SetVoltage(Double.Parse(Console.ReadLine())); }// = Double.Parse(Console.ReadLine()); }
                             try { led.SetValue(Double.Parse(Console.ReadLine()), resistor); }
                             catch (Exception e) { }
                         }
                         if (Double.IsNaN(led.Current))
                         {
                             Console.Write("Enter Current of Circuit --> ");
-                            //try { resistor.SetVoltage(Double.Parse(Console.ReadLine())); }// = Double.Parse(Console.ReadLine()); }
                             try { led.SetCurrent(Double.Parse(Console.ReadLine()), resistor); }
                             catch (Exception e) { }
                         }
                     }
                     PrintComponent(resistor);
-                    /*
-                    while (resistor.ValuesSet() == false)
-                    {
-                        if (Double.IsNaN(resistor.Voltage))
-                        {
-                            Console.Write("Enter Voltage --> ");
-                            try { resistor.SetVoltage(Double.Parse(Console.ReadLine())); }// = Double.Parse(Console.ReadLine()); }
-                            catch (Exception e) { }
-                        }
-                        if (Double.IsNaN(resistor.Current))
-                        {
-                            Console.Write("Enter Current --> ");
-                            try { resistor.SetCurrent(Double.Parse(Console.ReadLine())); }
-                            catch (Exception e) { }
-                        }
-                        if (Double.IsNaN(resistor.Value))
-                        {
-                            Console.Write("Enter Resistance --> ");
-                            try { resistor.SetValue(Double.Parse(Console.ReadLine())); }
-                            catch (Exception e) { }
-                        }
-                        if (Double.IsNaN(resistor.Power))
-                        {
-                            Console.Write("Enter Power --> ");
-                            try { resistor.SetPower(Double.Parse(Console.ReadLine())); }
-                            catch (Exception e) { }
-                        }
-                    }
-                    PrintComponent(resistor);*/
-
+                    PrintComponent(led);
                 }
                 else if (userInput == "4")
                 {
@@ -293,9 +257,6 @@ namespace week6program
 
     public class Resistor : IComponent
     {
-
-        private int variablesSet = 0;
-
         private double voltage = Double.NaN;
         private double current = Double.NaN;
         private double resistance = Double.NaN;
@@ -326,13 +287,11 @@ namespace week6program
             }
             else
             {
-                Console.WriteLine("One more value required");
+                //Console.WriteLine("One more value required");
             }
         }
         public void SetVoltage(double value, IComponent component,double sourceVoltage)
         {
-            //Type type = typeof(IComponent);
-            //Console.WriteLine(type);
 
             bool isLed = true;
 
@@ -343,18 +302,12 @@ namespace week6program
 
             if (isLed)//is a led
             {
-                LED led = (LED)component;
-
-
+                throw new NotImplementedException();
             }
             else //is a resistor
             {
                 Resistor res = (Resistor)component;
-
                 voltage = value;
-
-                //res.SetVoltage(current);
-
 
                 if (!Double.IsNaN(current)) //we have voltage and current
                 {
@@ -377,15 +330,9 @@ namespace week6program
                 }
                 else
                 {
-                    Console.WriteLine("One more value required");
+                    //Console.WriteLine("One more value required");
                 }
             }
-
-
-            //try { Resistor res = (Resistor)component; }
-            //catch { Console.WriteLine("nope"); }
-
-
         }
         public void SetCurrent(double value)
         {
@@ -407,7 +354,7 @@ namespace week6program
             }
             else
             {
-                Console.WriteLine("One more value required");
+                //Console.WriteLine("One more value required");
             }
         }
         public void SetCurrent(double value,IComponent component, double sourceVoltage)
@@ -421,16 +368,12 @@ namespace week6program
 
             if (isLed)//is a led
             {
-                LED led = (LED)component;
+                throw new NotImplementedException();
             }
             else //is a resistor
             {
                 Resistor res = (Resistor)component;
-
                 current = value;
-
-                //if (Double.IsNaN(res.current)) { res.SetCurrent(current, this); }
-                //res.SetCurrent(current); 
 
                 if (!Double.IsNaN(voltage)) //we have voltage and current
                 {
@@ -440,13 +383,11 @@ namespace week6program
                 else if (!Double.IsNaN(resistance))//we have current and resistance
                 {
                     voltage = current * resistance;
-                    //if(Double.IsNaN(res.voltage))
+
                     if (!Double.IsNaN(sourceVoltage))
                     {
                         res.SetVoltage(sourceVoltage - voltage, this, sourceVoltage);
                     }
-
-
                     power = (voltage * voltage) / resistance;
                 }
                 else if (!Double.IsNaN(power))//we have current and power
@@ -461,7 +402,7 @@ namespace week6program
                 }
                 else
                 {
-                    Console.WriteLine("One more value required");
+                    //Console.WriteLine("One more value required");
                 }
             }
         }
@@ -485,7 +426,7 @@ namespace week6program
             }
             else
             {
-                Console.WriteLine("One more value required");
+                //Console.WriteLine("One more value required");
             }
         }
         public void SetValue(double value, IComponent component, double sourceVoltage)
@@ -499,18 +440,13 @@ namespace week6program
 
             if (isLed)//is a led
             {
-                LED led = (LED)component;
+                throw new NotImplementedException();
             }
             else //is a resistor
             {
                 Resistor res = (Resistor)component;
-
-                //current = value;
-
-                //if (Double.IsNaN(res.current)) { res.SetCurrent(current, this); }
-
-
                 resistance = value;
+
                 if (!Double.IsNaN(voltage)) //we have resistance and voltage
                 {
                     current = voltage / resistance;
@@ -525,7 +461,6 @@ namespace week6program
                     {
                         res.SetVoltage(sourceVoltage - voltage, this, sourceVoltage);
                     }
-
                     power = (voltage * voltage) / resistance;
                 }
                 else if (!Double.IsNaN(power))//we have resistance and power
@@ -541,7 +476,7 @@ namespace week6program
                 }
                 else
                 {
-                    Console.WriteLine("One more value required");
+                    //Console.WriteLine("One more value required");
                 }
             }
         }
@@ -565,7 +500,7 @@ namespace week6program
             }
             else
             {
-                Console.WriteLine("One more value required");
+                //Console.WriteLine("One more value required");
             }
         }
         public void SetPower(double value, IComponent component, double sourceVoltage)
@@ -579,17 +514,13 @@ namespace week6program
 
             if (isLed)//is a led
             {
-                LED led = (LED)component;
+                throw new NotImplementedException();
             }
             else //is a resistor
             {
                 Resistor res = (Resistor)component;
-
-                //current = value;
-
-                //if (Double.IsNaN(res.current)) { res.SetCurrent(current, this); }
-
                 power = value;
+
                 if (!Double.IsNaN(voltage)) //we have power and voltage
                 {
                     resistance = (voltage * voltage) / power;
@@ -621,7 +552,7 @@ namespace week6program
                 }
                 else
                 {
-                    Console.WriteLine("One more value required");
+                    //Console.WriteLine("One more value required");
                 }
             }
         }
@@ -631,13 +562,16 @@ namespace week6program
         public double Value { get { return resistance; }}
         public double Power { get { return power; }}
 
-
         public void DisplayValues()
         {
+            ConsoleColor defaultColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("RESISTOR");
             Console.WriteLine("Voltage = " + voltage);
             Console.WriteLine("Current = " + current);
             Console.WriteLine("Resistance = " + resistance);
             Console.WriteLine("Power = " + power);
+            Console.ForegroundColor = defaultColor;
         }
     }
 
@@ -657,37 +591,24 @@ namespace week6program
             if (Double.IsNaN(voltage) || Double.IsNaN(current) || Double.IsNaN(voltageDrop)) return false; //|| Double.IsNaN(power)) return false;
             else return true;
         }
-
         public void SetCurrent(double value, IComponent component, double sourceVoltage = Double.NaN)
         {
             Resistor res = (Resistor)component;
-
             current = value;
-            //res.SetCurrent(current);
-            if (!Double.IsNaN(voltage) && !Double.IsNaN(voltageDrop)) //we have voltage and current
+
+            if (!Double.IsNaN(voltage) && !Double.IsNaN(voltageDrop)) //we have all necessary values
             {
                 res.SetVoltage(voltage - voltageDrop);
                 res.SetCurrent(current);
-
-                //resistance = voltage / current;
-                //power = (voltage * voltage) / resistance;
             }
-            //else
-            //{
-            //    Console.WriteLine("One more value required");
-            //}
-            //throw new NotImplementedException();
         }
         public void SetVoltage(double value, IComponent component, double sourceVoltage = Double.NaN)
         {
             Resistor res = (Resistor)component;
 
-            //voltage = value;
-            //res.SetCurrent(current);
-
             if (!Double.IsNaN(voltageDrop))
             {
-                if (value <= voltageDrop)
+                if (value <= voltageDrop)//ensure voltage drop is lower than source voltage
                 {
                     Console.WriteLine("Voltage of source cannot be less than voltage drop");
                     throw new InvalidOperationException("Voltage of source cannot be less than voltage drop");
@@ -695,20 +616,17 @@ namespace week6program
             }
             voltage = value;
 
-            if (!Double.IsNaN(current) && !Double.IsNaN(voltageDrop)) //we have voltage and current
+            if (!Double.IsNaN(current) && !Double.IsNaN(voltageDrop)) //we have all necessary values
             {
                 res.SetCurrent(current);
                 res.SetVoltage(voltage - voltageDrop);
             }
-                //throw new NotImplementedException();
         }
         public void SetValue(double value, IComponent component, double sourceVoltage = Double.NaN)
         {
             Resistor res = (Resistor)component;
 
-            
-            //res.SetCurrent(current);
-            if (!Double.IsNaN(voltage))
+            if (!Double.IsNaN(voltage)) //ensure voltage drop is lower than source voltage
             {
                 if (value >= voltage)
                 {
@@ -717,61 +635,43 @@ namespace week6program
                 }
             }
             voltageDrop = value;
-            if (!Double.IsNaN(current) && !Double.IsNaN(voltage)) //we have voltage and current
+            if (!Double.IsNaN(current) && !Double.IsNaN(voltage)) //we have all necessary values
             {
                 res.SetCurrent(current);
                 res.SetVoltage(voltage - voltageDrop);
             }
-
-            //throw new NotImplementedException();
         }
         public void DisplayValues()
         {
+            ConsoleColor defaultColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+
             Console.WriteLine("LED");
             Console.WriteLine("Voltage = " + voltage);
             Console.WriteLine("Current = " + current);
             Console.WriteLine("Voltage Drop = " + voltageDrop);
-            //Console.WriteLine("Power = " + power);
+            Console.ForegroundColor = defaultColor;
         }
-        public void SetPower(double value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetPower(double value, IComponent component, double sourceVoltage = Double.NaN)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetValue(double value)
-        {
-            throw new NotImplementedException();
-        }
-        public void SetVoltage(double value)
-        {
-            throw new NotImplementedException();
-        }
-        public void SetCurrent(double value)
-        {
-            throw new NotImplementedException();
-        }
+        public void SetPower(double value){throw new NotImplementedException();} //unused functions from interface
+        public void SetPower(double value, IComponent component, double sourceVoltage = Double.NaN){throw new NotImplementedException();}
+        public void SetValue(double value){ throw new NotImplementedException();}
+        public void SetVoltage(double value){throw new NotImplementedException();}
+        public void SetCurrent(double value){ throw new NotImplementedException();}
     }
-
-
 
     public interface IComponent
     {
-            //void CalculateVoltage(double current,double resistance);
-
         bool ValuesSet();
 
-        double Voltage { get; }//set; }
-        double Current { get; }//set; }
-        double Value { get; }//set; }
-        double Power { get; }//set; }
+        double Voltage { get; }
+        double Current { get; }
+        double Value { get; }
+        double Power { get; }
 
-        void SetVoltage(double value);
-        void SetVoltage(double value,IComponent component, double sourceVoltage = Double.NaN);
+        void SetVoltage(double value); 
+        void SetVoltage(double value,IComponent component, double sourceVoltage = Double.NaN);//these overloaded versions of each method are used for part 2 (Voltage Divider Rule) and part 3 (LED limiting resistor)
+                                                                                              //the IComponent variable allows us to call the functions of the other component in the circuit, sourceVoltage is only used in part2 due to the class having no parameter for source voltage
+
         void SetCurrent(double value);
         void SetCurrent(double value,IComponent component, double sourceVoltage= Double.NaN);
         void SetValue(double value);
@@ -779,24 +679,6 @@ namespace week6program
         void SetPower(double value);
         void SetPower(double value,IComponent component, double sourceVoltage= Double.NaN);
 
-
-
-
-        
-
-
         void DisplayValues();
-
-
-
-        //void PrintComponent(IComponent)
-
-        //void PrintComponent(ICo)
-
-
     }
-
-
-
-
 }
